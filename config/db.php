@@ -4,7 +4,7 @@ class db
   const HOST = "localhost";
   const DBNAME = "proveedores";
   const USER = "root";
-  const PASSWORD = "452000eL"; // Evidentemente adapta los valores
+  const PASSWORD = "santabarbara40"; // Evidentemente adapta los valores
 
   static public function conexion()
   {
