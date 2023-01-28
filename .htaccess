@@ -1,0 +1,2 @@
+RewriteEngine On
+ErrorDocument 404 /mvc_22_23/MVC_proveedores/index.php
