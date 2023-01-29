@@ -70,6 +70,7 @@ class PiezasModel
 
     public function edit(string $idAntiguo, array $pieza): bool
     {
+       
         try {
             $sql = "UPDATE piezas SET numpieza = :numpi, nompieza=:nompi, preciovent=:precio";
             $sql .= " WHERE numpieza = :idantiguo;";

@@ -83,7 +83,7 @@ class PiezasController
         $errores = [];
         $_SESSION["errores"] = [];
         $_SESSION["datos"] = [];
-        var_dump($arrayPieza);
+       
         if ($arrayPieza["preciovent"] < 0) {
             $error = true;
             $errores["preciovent"][] = "El precio No puede ser menor a 0";

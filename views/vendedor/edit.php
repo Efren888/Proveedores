@@ -7,22 +7,16 @@ require_once "controllers/pedidosController.php";
 //recoger datos
 if (!isset($_REQUEST["id"]))
     header('location:index.php?accion=listar&tabla=vendedor');
-
-//trycatch?????
-
 $id = $_REQUEST["id"];
 
 $controlVendedor = new VendedorController();
 $vendedor = $controlVendedor->ver($id);
 
-
 // controlador de preciosum
 $controlPrecioSum = new precioSumsController();
 
-
 //controlador de pedido
 $controlPedido = new PedidosController();
-
 
 $visibilidad = "hidden";
 $mensaje = "";
@@ -43,29 +37,25 @@ if (isset($_REQUEST["evento"]) && $_REQUEST["evento"] == "guardar") {
         $clase = "alert alert-danger";
         $errores = ($_SESSION["errores"]) ?? [];
         $datos = ($_SESSION["datos"]) ?? [];
-        //actualizo los campos
-        $id = $datos["id"];
+        //actualizo los campos de errores, es para controlarlos o si no nada
+        $vendedor->nomvend = $datos["numvend"];
         $vendedor->nomvend = $datos["nomvend"];
         $vendedor->nombrecomer = $datos["nombrecomer"];
         $vendedor->telefono = $datos["telefono"];
-        $vendedor->calle = $datos["calle"];
-        $vendedor->ciudad = $datos["ciudad"];
-        $vendedor->provincia = $datos["provincia"];
-        $vendedor->cod_postal = $datos["cod_postal"];
     }
-    // var_dump($_SESSION["datos"]);
 }
+
 ?>
 <div class="<?= $clase ?>" <?= $visibilidad ?>> <?= $mensaje ?> </div>
 <?php
 if ($mostrarForm) {
     ?>
     <form action="index.php?accion=guardar&evento=editar&tabla=vendedor" method="POST">
-        <input type="hidden" id="idOriginal" name="idOriginal " value="<?= $id ?>">
+        <input type="hidden" id="idOriginal" name="idOriginal" value="<?= $id ?>">
         <div class="form-group">
             <label for="vendedor">ID vendedor </label>
             <?php
-
+            echo $id;
             $habilitado = (count($controlVendedor->buscar("numvend", "igual", $vendedor->numvend)) > 0 &&
                 count($controlPedido->buscar("numvend", "igual", $vendedor->numvend)) > 0 &&
                 count($controlPrecioSum->buscar("numvend", "igual", $vendedor->numvend)) > 0)
@@ -73,42 +63,48 @@ if ($mostrarForm) {
 
 
             ?>
-            <input type="text" <?= $habilitado ?> class="form-control" id="numvend" name="numvend"
+            <input type="number" <?= $habilitado ?> class="form-control" id="numvend" name="numvend"
                 value="<?= $vendedor->numvend ?>" aria-describedby="numvend" placeholder="Introduce vendedor">
-            <small id="vendedor" class="form-text text-muted">Compartir tu vendedor lo hace menos seguro.</small>
+            <small id="numvend" class="form-text text-muted">Compartir tu vendedor lo hace menos seguro.</small>
             <?= isset($errores["numvend"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "numvend") . '</div>' : ""; ?>
         </div>
         <div class="form-group">
-            <label for="nomvend">Nombre </label>
+            <label for="nomvend">Nombre del vendedor (Obligatorio)</label>
             <input type="text" class="form-control" id="nomvend" name="nomvend" value="<?= $vendedor->nomvend ?>"
                 placeholder="Introduce el Nombre de la vendedor">
+            <?= isset($errores["nomvend"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "nomvend") . '</div>' : ""; ?>
+
         </div>
         <div class="form-group">
-            <label for="nombrecomer">Nombre de la comercial</label>
+            <label for="nombrecomer">Nombre de la comercial (Obligatorio)</label>
             <input type="text" class="form-control" id="nombrecomer" name="nombrecomer"
                 value="<?= $vendedor->nombrecomer ?>" placeholder="Introduce el nombre de empresa">
+            <?= isset($errores["nombrecomer"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "nombrecomer") . '</div>' : ""; ?>
+
         </div>
         <div class="form-group">
-            <label for="telefono">Numero de telefono</label>
+            <label for="telefono">Numero de TELEFONO (Obligatorio)</label>
             <input type="text" class="form-control" id="telfono" name="telefono" value="<?= $vendedor->telefono ?>"
                 placeholder="Introduce el numeor de telefono">
+            <?= isset($errores["telefono"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "telefono") . '</div>' : ""; ?>
+
         </div>
 
         <div class="form-group">
-            <label for="calle">Direccion</label>
+            <label for="calle">calle</label>
             <input type="text" class="form-control" id="calle" name="calle" value="<?= $vendedor->calle ?>"
                 placeholder="Introduce la direccion">
         </div>
 
         <div class="form-group">
-            <label for="ciudad">Ciudad</label>
+            <label for="CIUDAD">ciudad</label>
             <input type="text" class="form-control" id="ciudad" name="ciudad" value="<?= $vendedor->ciudad ?>"
                 placeholder="Introduce la ciudad ">
         </div>
 
         <div class="form-group">
             <label for="provincia">Nombre de la provincia</label>
-            <input type="text" class="form-control" id="provincia" name="provincia" value="<?= $vendedor->nombrecomer ?>"
+            <input type="text" class="form-control" id="provincia" name="provincia" value="<?= $vendedor->provincia ?>"
                 placeholder="Introduce el nombre de la provincia">
         </div>
         <div class="form-group">

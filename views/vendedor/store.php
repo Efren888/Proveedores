@@ -1,27 +1,28 @@
 <?php
 require_once "controllers/vendedorController.php";
 //recoger datos
-if (!isset($_REQUEST["numvend"]))
-    header('Location:index.php?accion=crear&tabla=vendedor');
+if (!isset($_REQUEST["numvend"])) {
+    header('Location:index.php?accion=crear&tabla=vendedor&kthf');
+    exit;
+}
 
-$numvend = ($_REQUEST["numvend"]) ?? ""; //el id me servirá en editar
+$idOriginal = ($_REQUEST["idOriginal"]) ?? ""; //el id me servirá en editar
 $arrayVendedor = [
+    "idOriginal" => $idOriginal,
     "numvend" => $_REQUEST["numvend"],
     "nomvend" => $_REQUEST["nomvend"],
     "nombrecomer" => $_REQUEST["nombrecomer"],
     "telefono" => $_REQUEST["telefono"],
-    "domicilio" => $_REQUEST["domicilio"],
+    "calle" => $_REQUEST["calle"],
     "ciudad" => $_REQUEST["ciudad"],
     "provincia" => $_REQUEST["provincia"],
-    "cod_post" => $_REQUEST["cod_post"],
+    "cod_postal" => $_REQUEST["cod_postal"],
 ];
-//pagina invisible
-$controlador = new vendedorController();
+
+$controlador = new VendedorController();
 if ($_REQUEST["evento"] == "crear") {
     $controlador->crear($arrayVendedor);
-}
-
-if ($_REQUEST["evento"] == "editar") {
+} elseif ($_REQUEST["evento"] == "editar") {
     //devuelve true si edita false si falla
-    $controlador->editar($numvend, $arrayVendedor);
+    $controlador->editar($idOriginal, $arrayVendedor);
 }

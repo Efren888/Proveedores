@@ -3,7 +3,10 @@ require_once "assets/php/controlSesiones.php";
 require_once "config/router.php";
 require_once "views/menu/head.php";
 require_once "views/menu/nav.php";
+
 ?>
+
+
 <!-- Content Wrapper. Contains page content -->
   <!-- Content Wrapper. Contains page content -->
   <!-- Content Wrapper. Contains page content -->

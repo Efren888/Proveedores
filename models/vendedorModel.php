@@ -15,16 +15,18 @@ class vendedorModel
     public function insert(array $vendedor): ?string //devuelvo entero o null
 
     {
+
         try {
-            $sql = "INSERT INTO vendedor  VALUES (:NUMVEND,:NOMVEND ,:NOMBRECOMER ,:TELEFONO, :CALLE,:CIUDAD ,:PROVINCIA ,:COD_POSTAL);";
+            $sql = "INSERT INTO vendedor  VALUES (NUMVEND=:numvend,NOMVEND=:nomvend ,NOMBRECOMER=:nombrecomer ,TELEFONO=:telefono, CALLE=:calle,CIUDAD=:ciudad, PROVINCIA=: provincia,COD_POSTAL=:cod_post);";
             $sentencia = $this->conexion->prepare($sql);
+
             $arrayDatos = [
 
                 ":NUMVEND" => $vendedor["numvend"],
                 ":NOMVEND" => $vendedor["nomvend"],
                 ":NOMBRECOMER" => $vendedor["nombrecomer"],
                 ":TELEFONO" => $vendedor["telefono"],
-                ":CALLE" => $vendedor["domicilio"],
+                ":CALLE" => $vendedor["calle"],
                 ":CIUDAD" => $vendedor["ciudad"],
                 ":PROVINCIA" => $vendedor["provincia"],
                 ":COD_POSTAL" => $vendedor["cod_post"],
@@ -82,32 +84,26 @@ class vendedorModel
 
     public function edit(int $id, array $vendedor): bool
     {
+        $sql = "UPDATE vendedor SET NUMVEND=:numvend,NOMVEND = :nomvend, NOMBRECOMER = :nombrecomer, TELEFONO = :telefono, CALLE = :calle, CIUDAD = :ciudad, PROVINCIA = :provincia, COD_POSTAL = :cod_postal";
+        $sql .= " WHERE NUMVEND = :id;";
+
         try {
-            $sql = "UPDATE vendedor SET (numvend=:NUMVEND,NOMVEND=:nomvend ,NOMBRECOMER=:nombrecomer ,TELEFONO=:telefono, CALLE=:domicilio, CIUDAD=:ciudad , PROVINCIA=:provincia ,COD_POSTAL=:cod_post);";
-            $sql .= " WHERE NUMVEND = :id;";
-            /*
-            nomvend
-nombrecomer
-telefono
-calle
-ciudad
-provincia
-cod_postalPROVINCIA
-            */
             $arrayDatos = [
-                ":NUMVEND" => $vendedor["numvend"],
-                ":NOMVEND" => $vendedor["nomvend"],
-                ":NOMBRECOMER" => $vendedor["nombrecomer"],
-                ":TELEFONO" => $vendedor["telefono"],
-                ":CALLE" => $vendedor["calle"],
-                ":CIUDAD" => $vendedor["ciudad"],
-                ":PROVINCIA" => $vendedor["PROVINCIA"],
-                ":COD_POSTAL" => $vendedor["provincia"],
+                ":id" => $id,
+                ":numvend"=>$vendedor["numvend"],
+                ":nomvend" => $vendedor["nomvend"],
+                ":nombrecomer" => $vendedor["nombrecomer"],
+                ":telefono" => $vendedor["telefono"],
+                ":calle" => $vendedor["calle"],
+                ":ciudad" => $vendedor["ciudad"],
+                ":provincia" => $vendedor["provincia"],
+                ":cod_postal" => $vendedor["cod_postal"],
+
             ];
             $sentencia = $this->conexion->prepare($sql);
             return $sentencia->execute($arrayDatos);
         } catch (Exception $e) {
-            echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
+            echo 'Excepción capturada: ', $e->getMessage(), "<br>";
             return false;
         }
     }
@@ -139,5 +135,11 @@ cod_postalPROVINCIA
         $inventarios = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         return $inventarios;
     }
-
+    public function exists(string $campo, string $valor): bool
+    {
+        $sentencia = $this->conexion->prepare("SELECT * FROM vendedor WHERE $campo=:valor");
+        $arrayDatos = [":valor" => $valor];
+        $resultado = $sentencia->execute($arrayDatos);
+        return (!$resultado || $sentencia->rowCount() <= 0) ? false : true;
+    }
 }

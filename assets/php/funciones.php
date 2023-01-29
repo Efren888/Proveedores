@@ -53,3 +53,56 @@ function DibujarErrores($errores,$campo){
     }
     return $cadena;
 }
+
+function validarSoloLetras($cadena)
+{
+    if (preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/', $cadena)) {
+        return true;
+    }
+    return false;
+}
+
+function validarTelefono(int $telefono): bool
+{
+    if (strlen($telefono) == 9 && preg_match('/^[0-9]*$/', $telefono)) {
+        return true;
+    }
+    return false;
+
+}
+
+function validarDecimal(float $numero): bool
+{
+    $numeroFormateado = number_format($numero, 2);
+    if ($numeroFormateado == $numero) {
+        return true;
+    }
+    return false;
+}
+
+
+
+function validarEntero($number): bool
+{ // me puede meter conotacion, hayq ue mirar la conotacion cientifica
+
+    for ($i = 0; $i < strlen($number); $i++) {
+        if ($number[$i] == "e" || $number[$i] == "E") {
+            return false;
+        }
+
+    }
+    if (!is_string($number)) {
+
+        if (is_numeric($number)) {
+
+            if (is_float($number)) {
+
+                return false;
+            }
+
+            return true;
+        }
+        return false;
+    }
+    return false;
+}

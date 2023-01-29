@@ -62,23 +62,96 @@ class VendedorController
     public function borrar(int $id): void
     {
         $borrado = $this->model->delete($id);
+
         $redireccion = "location:index.php?accion=listar&tabla=vendedor&evento=borrar&id={$id}";
+
+
         $redireccion .= ($borrado == false) ? "&error=true" : "";
+
         header($redireccion);
+
     }
 
 
-    public function editar(int $id, array $arrayVendedor): void
+
+    public function editar(int $idOriginal, array $arrayVendedor): void
     {
+        // validacion de datos
 
-        $editadoCorrectamente = $this->model->edit($id, $arrayVendedor);
+        $error = false;
+        $errores = [];
+        $_SESSION["errores"] = [];
+        $_SESSION["datos"] = [];
+
+        // numero de vendedor 
+
+        if ($arrayVendedor["numvend"] < 0) {
+            $error = true;
+            $errores["numvend"][] = "El numero no puede ser menor a 0";
+        }
+
+        if (validarEntero($arrayVendedor["numvend"])) {
+            $error = true;
+            $errores["numvend"][] = "Este parámetro debe ser sólo un número";
+        }
+
+        //nombre de vendedor
+        if (!validarSoloLetras($arrayVendedor["nomvend"])) {
+            $error = true;
+            $errores["nomvend"][] = "El nombre solo debe contener letras, no se permiten números";
+        }
+
+        //nombre comercial
 
 
-        if ($editadoCorrectamente == false) {
-            $redireccion = "location:index.php?accion=editar&tabla=vendedor&evento=guardar&id={$id}&error=true";
+        if (!validarSoloLetras($arrayVendedor["nombrecomer"])) {
+            $error = true;
+            $errores["nomvend"][] = "El nombre del comercial sólo debe contener letras, no se permiten números";
+        }
+
+        // telefono
+
+        if (validarEntero($arrayVendedor["telefono"])) {
+            $error = true;
+            $errores["telefono"][] = "Este parámetro debe ser sólo un número";
+        }
+
+        //campos NO VACIOS
+        $arrayNoNulos = ["numvend", "nomvend", "nombrecomer", "telefono"];
+        $nulos = HayNulos($arrayNoNulos, $arrayVendedor);
+        if (count($nulos) > 0) {
+            $error = true;
+            for ($i = 0; $i < count($nulos); $i++) {
+                $errores[$nulos[$i]][] = "El campo {$nulos[$i]} está vacio.";
+            }
+        }
+        //CAMPOS UNICOS
+        $arrayUnicos = [];
+        if ($arrayVendedor["numvend"] != $idOriginal)
+            $arrayUnicos[] = "numvend";
+
+
+        foreach ($arrayUnicos as $CampoUnico) {
+            if ($this->model->exists($CampoUnico, $arrayVendedor[$CampoUnico])) {
+                $errores[$CampoUnico][] = "El {$arrayVendedor[$CampoUnico]} de {$CampoUnico} ya existe. Por favor no lo utilice, pues puede a problemas con los datos";
+            }
+        }
+
+        $editado = false;
+        if (!$error)
+            $editado = $this->model->edit($idOriginal, $arrayVendedor);
+
+        if ($editado == false) {
+
+            $_SESSION["errores"] = $errores;
+            $_SESSION["datos"] = $arrayVendedor;
+
+            $redireccion = "location:index.php?accion=editar&tabla=vendedor&evento=guardar&id={$idOriginal}&error=true";
         } else {
-            $id = $arrayVendedor["numvend"];
-            $redireccion = "location:index.php?accion=editar&tabla=vendedor&evento=guardar&id={$id}";
+            unset($_SESSION["errores"]);
+            unset($_SESSION["datos"]);
+
+            $redireccion = "location:index.php?accion=editar&tabla=vendedor&evento=guardar&id={$idOriginal}";
         }
         //vuelvo a la pagina donde estaba
         header($redireccion);
