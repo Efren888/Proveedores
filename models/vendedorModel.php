@@ -2,7 +2,7 @@
 require_once('config/db.php');
 //require_once('class/persona.php');
 
-class vendedorModel
+class VendedorModel
 {
     private $conexion;
 
@@ -90,7 +90,7 @@ class vendedorModel
         try {
             $arrayDatos = [
                 ":id" => $id,
-                ":numvend"=>$vendedor["numvend"],
+                ":numvend" => $vendedor["numvend"],
                 ":nomvend" => $vendedor["nomvend"],
                 ":nombrecomer" => $vendedor["nombrecomer"],
                 ":telefono" => $vendedor["telefono"],
@@ -138,8 +138,12 @@ class vendedorModel
     public function exists(string $campo, string $valor): bool
     {
         $sentencia = $this->conexion->prepare("SELECT * FROM vendedor WHERE $campo=:valor");
+
         $arrayDatos = [":valor" => $valor];
+
         $resultado = $sentencia->execute($arrayDatos);
+
         return (!$resultado || $sentencia->rowCount() <= 0) ? false : true;
+        
     }
 }

@@ -73,11 +73,14 @@ if ($mostrarForm) {
       <label for="nompieza">Nombre </label>
       <input type="text" class="form-control" id="nompieza" name="nompieza" value="<?= $pieza->nompieza ?>"
         placeholder="Introduce el Nombre de la pieza">
+        <?= isset($errores["nompieza"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "nompieza") . '</div>' : ""; ?>
     </div>
+
     <div class="form-group">
       <label for="preciovent">Precio de Venta </label>
       <input type="text" class="form-control" id="preciovent" name="preciovent" value="<?= $pieza->preciovent ?>"
         placeholder="Introduce el Precio">
+        <?= isset($errores["preciovent"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "preciovent") . '</div>' : ""; ?>
     </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a class="btn btn-danger" href="index.php?accion=listar&tabla=piezas">Cancelar</a>

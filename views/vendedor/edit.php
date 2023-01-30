@@ -43,6 +43,7 @@ if (isset($_REQUEST["evento"]) && $_REQUEST["evento"] == "guardar") {
         $vendedor->nombrecomer = $datos["nombrecomer"];
         $vendedor->telefono = $datos["telefono"];
     }
+
 }
 
 ?>
@@ -55,13 +56,11 @@ if ($mostrarForm) {
         <div class="form-group">
             <label for="vendedor">ID vendedor </label>
             <?php
-            echo $id;
+           
             $habilitado = (count($controlVendedor->buscar("numvend", "igual", $vendedor->numvend)) > 0 &&
                 count($controlPedido->buscar("numvend", "igual", $vendedor->numvend)) > 0 &&
                 count($controlPrecioSum->buscar("numvend", "igual", $vendedor->numvend)) > 0)
                 ? "disabled" : "";
-
-
             ?>
             <input type="number" <?= $habilitado ?> class="form-control" id="numvend" name="numvend"
                 value="<?= $vendedor->numvend ?>" aria-describedby="numvend" placeholder="Introduce vendedor">

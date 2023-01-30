@@ -72,6 +72,24 @@
           </ul>
         </div>
       </div>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown"> 
+          <ul class="navbar-nav"> 
+            <li class="nav-item dropdown"> 
+              <a class="nav-link dropdown-toggle" href="index.php" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+              Precio Sum 
+              </a> 
+              <ul class="dropdown-menu"> 
+                <li><a class="dropdown-item" href="index.php">Precio Sum</a></li> 
+                <li> 
+                  <hr> 
+                </li> 
+                <li><a class="dropdown-item" href="index.php?accion=crear&tabla=preciosum">Añadir Nuevo preciosum</a></li> 
+                <li><a class="dropdown-item" href="index.php?accion=listar&tabla=preciosum">Listar preciosum</a></li> 
+              </ul> 
+            </li> 
+          </ul> 
+        </div>
+
     </nav>
   </div>
   <div class="conteiner-fluid">

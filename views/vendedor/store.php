@@ -7,7 +7,9 @@ if (!isset($_REQUEST["numvend"])) {
 }
 
 $idOriginal = ($_REQUEST["idOriginal"]) ?? ""; //el id me servirá en editar
+
 $arrayVendedor = [
+
     "idOriginal" => $idOriginal,
     "numvend" => $_REQUEST["numvend"],
     "nomvend" => $_REQUEST["nomvend"],
@@ -17,12 +19,16 @@ $arrayVendedor = [
     "ciudad" => $_REQUEST["ciudad"],
     "provincia" => $_REQUEST["provincia"],
     "cod_postal" => $_REQUEST["cod_postal"],
+    
 ];
 
 $controlador = new VendedorController();
+
 if ($_REQUEST["evento"] == "crear") {
+
     $controlador->crear($arrayVendedor);
+
 } elseif ($_REQUEST["evento"] == "editar") {
-    //devuelve true si edita false si falla
+
     $controlador->editar($idOriginal, $arrayVendedor);
 }

@@ -21,8 +21,8 @@ class PiezasController
         $_SESSION["datos"] = [];
         /*
         if (preg_match("^[0-9]+[.,]?([0-9]{0,2})$",$arrayPieza["preciovent"])==""){   
-            $error=true;
-            $errores["preciovent"][]=preg_match("^[0-9]+[.,]?([0-9]{0,2})$",$arrayPieza["preciovent"]);
+        $error=true;
+        $errores["preciovent"][]=preg_match("^[0-9]+[.,]?([0-9]{0,2})$",$arrayPieza["preciovent"]);
         }*/
         if ($arrayPieza["preciovent"] < 0) {
             $error = true;
@@ -48,7 +48,8 @@ class PiezasController
         }
 
         $id = null;
-        if (!$error) $id = $this->model->insert($arrayPieza);
+        if (!$error)
+            $id = $this->model->insert($arrayPieza);
 
         if ($id == null) {
             $_SESSION["errores"] = $errores;
@@ -83,7 +84,7 @@ class PiezasController
         $errores = [];
         $_SESSION["errores"] = [];
         $_SESSION["datos"] = [];
-       
+
         if ($arrayPieza["preciovent"] < 0) {
             $error = true;
             $errores["preciovent"][] = "El precio No puede ser menor a 0";
@@ -100,7 +101,8 @@ class PiezasController
 
         //CAMPOS UNICOS
         $arrayUnicos = [];
-        if ($arrayPieza["numpieza"] != $idOriginal) $arrayUnicos[] = "numpieza";
+        if ($arrayPieza["numpieza"] != $idOriginal)
+            $arrayUnicos[] = "numpieza";
 
 
         foreach ($arrayUnicos as $CampoUnico) {
@@ -110,12 +112,13 @@ class PiezasController
         }
         //todo correcto
         $editado = false;
-        if (!$error) $editado = $this->model->edit($idOriginal, $arrayPieza);
+        if (!$error)
+            $editado = $this->model->edit($idOriginal, $arrayPieza);
 
         if ($editado == false) {
+
             $_SESSION["errores"] = $errores;
             $_SESSION["datos"] = $arrayPieza;
-            //$_SESSION["datos"]["idOriginal"]=$idOriginal;
             $redireccion = "location:index.php?accion=editar&tabla=piezas&evento=guardar&id={$idOriginal}&error=true";
         } else {
             unset($_SESSION["errores"]);

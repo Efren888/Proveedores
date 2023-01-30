@@ -1,7 +1,7 @@
 <?php
 require_once("views/menu/head.php");
 
-$tablasValidas = ["piezas", "pedido", "vendedor"];
+$tablasValidas = ["piezas", "pedido", "vendedor","preciosum"];
 
 if (isset($_REQUEST["tabla"], $_REQUEST["accion"])) {
     $tabla = $_REQUEST["tabla"];

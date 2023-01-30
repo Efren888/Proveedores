@@ -1,5 +1,5 @@
 <?php 
-$tablasValidas=["piezas","pedido","vendedor"];
+$tablasValidas=["piezas","pedido","vendedor","preciosum"];
 $accionesInvisibles=["guardar","borrar"];
 
 $invisible=false;

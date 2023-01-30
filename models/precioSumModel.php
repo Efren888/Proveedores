@@ -12,6 +12,7 @@ class precioSumModel
     }
 
     public function insert(array $preciosum): ?string //devuelvo entero o null
+
     {
         try {
             $sql = "INSERT INTO   VALUES ();";
@@ -22,19 +23,24 @@ class precioSumModel
             $resultado = $sentencia->execute($arrayDatos);
             return ($resultado == true) ? $preciosum["numpreciosum"] : null;
         } catch (Exception $e) {
-            echo 'Excepción capturada: ',  $e->getMessage(), "<bR>";
+            echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
             return null;
         }
     }
 
-    public function read(int $id): ?stdClass
+    public function read(string $id1, string $id2): ?stdClass
     {
-        $sentencia = $this->conexion->prepare("SELECT * FROM preciosum WHERE numpreciosum=:id");
-        $arrayDatos = [":id" => $id];
+        $sentencia = $this->conexion->prepare("SELECT * FROM preciosum WHERE numpieza=:id1 AND numvend=:id2");
+        $arrayDatos = [
+            ":id1" => $id1,
+            ":id2" => $id2
+        ];
+
         $resultado = $sentencia->execute($arrayDatos);
         // ojo devulve true si la consulta se ejecuta correctamente
         // eso no quiere decir que hayan resultados
-        if (!$resultado) return null;
+        if (!$resultado)
+            return null;
         //como sólo va a devolver un resultado uso fetch
         // DE Paso probamos el FETCH_OBJ
         $preciosum = $sentencia->fetch(PDO::FETCH_OBJ);
@@ -44,7 +50,7 @@ class precioSumModel
 
     public function readAll(): array
     {
-        $sentencia = $this->conexion->query("SELECT pe.numvend AS numvend, numpreciosum,fecha,v.NOMVEND AS nomvend FROM preciosum pe , vendedor v WHERE pe.numvend=v.numvend");
+        $sentencia = $this->conexion->query("SELECT * FROM preciosum ");
         //usamos método query
         $preciosums = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         return $preciosums;
@@ -64,7 +70,7 @@ class precioSumModel
             // Si no ha borrado nada considero borrado error
             return ($sentencia->rowCount() <= 0) ? false : true;
         } catch (Exception $e) {
-            echo 'Excepción capturada: ',  $e->getMessage(), "<bR>";
+            echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
             return false;
         }
     }
@@ -84,7 +90,7 @@ class precioSumModel
             $sentencia = $this->conexion->prepare($sql);
             return $sentencia->execute($arrayDatos);
         } catch (Exception $e) {
-            echo 'Excepción capturada: ',  $e->getMessage(), "<bR>";
+            echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
             return false;
         }
     }
@@ -110,7 +116,8 @@ class precioSumModel
         }
 
         $resultado = $sentencia->execute($arrayDatos);
-        if (!$resultado) return [];
+        if (!$resultado)
+            return [];
         $preciosums = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         return $preciosums;
     }

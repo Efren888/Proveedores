@@ -8,7 +8,7 @@ class VendedorController
 
     public function __construct()
     {
-        $this->model = new vendedorModel();
+        $this->model = new VendedorModel();
     }
 
     public function crear(array $arrayVendedor): void
@@ -150,8 +150,8 @@ class VendedorController
         } else {
             unset($_SESSION["errores"]);
             unset($_SESSION["datos"]);
-
-            $redireccion = "location:index.php?accion=editar&tabla=vendedor&evento=guardar&id={$idOriginal}";
+            $id = $arrayVendedor["numpieza"];
+            $redireccion = "location:index.php?accion=editar&tabla=vendedor&evento=guardar&id={$id}";
         }
         //vuelvo a la pagina donde estaba
         header($redireccion);
