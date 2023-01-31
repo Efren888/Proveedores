@@ -2,7 +2,7 @@
 require_once "controllers/vendedorController.php";
 //recoger datos
 if (!isset($_REQUEST["numvend"])) {
-    header('Location:index.php?accion=crear&tabla=vendedor&kthf');
+    header('Location:index.php?accion=crear&tabla=vendedor');
     exit;
 }
 

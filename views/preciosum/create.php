@@ -16,9 +16,6 @@ $controladorVend = new VendedorController();
 
 $allVend = $controladorVend->listar();
 
-
-
-
 $cadenaErrores = "";
 $cadena = "";
 $errores = [];
@@ -40,13 +37,13 @@ if (isset($_REQUEST["error"])) {
     <form action="index.php?accion=guardar&evento=crear&tabla=piezas" method="POST">
         <div class="form-group">
             <label for="numpieza">Número de pieza </label>
-            <select name="" id=""  class="form-control">
+            <select name="" id="" class="form-control">
                 <?php
                 foreach ($alliezas as $pieza) {
-                    ?>
+                ?>
                     <option value=<?= $pieza["numpieza"] ?>><?= $pieza["numpieza"] . " | -- | " . $pieza["nompieza"] ?>
                     </option>
-                    <?php
+                <?php
                 }
                 ?>
             </select>
@@ -57,13 +54,13 @@ if (isset($_REQUEST["error"])) {
         <div class="form-group">
             <!-- regex de solo carcteres -->
             <label for="numvend">Numero del vendedor </label>
-            <select name="" id=""  class="form-control">
+            <select name="" id="" class="form-control">
                 <?php
                 foreach ($allVend as $allVend) {
-                    ?>
+                ?>
                     <option value=<?= $allVend["numvend"] ?>><?= $allVend["numvend"] . " | -- | " . $allVend["nomvend"] ?>
                     </option>
-                    <?php
+                <?php
                 }
                 ?>
             </select>
@@ -75,32 +72,28 @@ if (isset($_REQUEST["error"])) {
         <div class="form-group">
             <!-- regex de solo carcteres -->
             <label for="PrecioUnidad">PrecioUnidad </label>
-            <input type="text" required class="form-control"
-                  id="PrecioUnidad" name="PrecioUnidad"
-                aria-describedby="PrecioUnidad" placeholder="Introduce el nombre del vendedor"
-                value="<?= $_SESSION["datos"]["PrecioUnidad"] ?? "" ?>">
+            <input type="numnber" required class="form-control" id="PrecioUnidad" name="PrecioUnidad" aria-describedby="PrecioUnidad" placeholder="Introduce el nombre del vendedor" value="<?= $_SESSION["datos"]["PrecioUnidad"] ?? "" ?>">
             <?= isset($errores["PrecioUnidad"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "PrecioUnidad") . '</div>' : ""; ?>
+            <small id="PrecioUnidad" class="form-text text-muted">Precio unitario por porducto.</small>
+
         </div>
 
         <!-- diassum -->
         <div class="form-group">
             <!-- regex de solo carcteres -->
-            <label for="diassum"> diassum </label>
-            <input type="text" required class="form-control"
-                pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,30}$" id="diassum" name="diassum"
-                aria-describedby="diassum" placeholder="Introduce el nombre del vendedor"
-                value="<?= $_SESSION["datos"]["diassum"] ?? "" ?>">
+            <label for="diassum"> Dias de suministro </label>
+            <input type="number" required class="form-control" min="1" pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,30}$" id="diassum" name="diassum" aria-describedby="diassum" placeholder="Introduce el nombre del vendedor" value="<?= $_SESSION["datos"]["diassum"] ?? "" ?>">
             <?= isset($errores["diassum"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "diassum") . '</div>' : ""; ?>
+            <small id="diassum" class="form-text text-muted">El tiempo que tarda el producto en suministarse.</small>
         </div>
         <!-- descuetno -->
         <div class="form-group">
             <!-- regex de solo carcteres -->
             <label for="descuetno">descuetno </label>
-            <input type="text" required class="form-control"
-                pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,30}$" id="descuetno" name="descuetno"
-                aria-describedby="descuetno" placeholder="Introduce el nombre del vendedor"
-                value="<?= $_SESSION["datos"]["descuetno"] ?? "" ?>">
+            <input type="number" required class="form-control" min="1" max="75" pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,30}$" id="descuetno" name="descuetno" aria-describedby="descuetno" placeholder="Introduce el nombre del vendedor" value="<?= $_SESSION["datos"]["descuetno"] ?? "" ?>">
             <?= isset($errores["descuetno"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "descuetno") . '</div>' : ""; ?>
+            <small id="descuento" class="form-text text-muted">Descuento sobro el preio unitario.</small>
+
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar</button>

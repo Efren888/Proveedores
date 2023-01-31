@@ -7,9 +7,10 @@ require_once "controllers/pedidosController.php";
 //recoger datos
 if (!isset($_REQUEST["id"]))
     header('location:index.php?accion=listar&tabla=vendedor');
-$id = $_REQUEST["id"];
+$id = intval($_REQUEST["id"]);
 
 $controlVendedor = new VendedorController();
+
 $vendedor = $controlVendedor->ver($id);
 
 // controlador de preciosum
@@ -60,7 +61,7 @@ if ($mostrarForm) {
             $habilitado = (count($controlVendedor->buscar("numvend", "igual", $vendedor->numvend)) > 0 &&
                 count($controlPedido->buscar("numvend", "igual", $vendedor->numvend)) > 0 &&
                 count($controlPrecioSum->buscar("numvend", "igual", $vendedor->numvend)) > 0)
-                ? "disabled" : "";
+                ? "readonly" : "";
             ?>
             <input type="number" <?= $habilitado ?> class="form-control" id="numvend" name="numvend"
                 value="<?= $vendedor->numvend ?>" aria-describedby="numvend" placeholder="Introduce vendedor">

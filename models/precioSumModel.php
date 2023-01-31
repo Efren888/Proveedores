@@ -50,7 +50,9 @@ class precioSumModel
 
     public function readAll(): array
     {
-        $sentencia = $this->conexion->query("SELECT * FROM preciosum ");
+        $sentencia = $this->conexion->query("SELECT ps.numpieza AS numpieza, p.NOMpieza AS 'nombre pieza' , ps.NUMVEND AS numvend, v.NOMVEND AS 'nombre de  vendedor' , preciounit, diassum, descuento  
+        FROM preciosum ps, vendedor v , piezas p
+        WHERE ps.NUMpieza= p.NUMpieza AND v.NUMVEND= ps.NUMVEND;");
         //usamos método query
         $preciosums = $sentencia->fetchAll(PDO::FETCH_ASSOC);
         return $preciosums;

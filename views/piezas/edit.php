@@ -60,7 +60,7 @@ if ($mostrarForm) {
         //count($controladorInv->buscar("numpieza", "igual", $pieza->numpieza)) > 0 &&
         count($controladorLinea->buscar("numpieza", "igual", $pieza->numpieza)) > 0 &&
         count($controladorPreSum->buscar("numpieza", "igual", $pieza->numpieza)) > 0 &&
-        count($controlador->buscar("numpieza", "igual", $pieza->numpieza)) > 0) ? "disabled" : "";
+        count($controlador->buscar("numpieza", "igual", $pieza->numpieza)) > 0) ? "readonly" : "";
       ?>
 
       <input type="text" <?= $habilitado ?> required class="form-control" id="numpieza" name="numpieza"
