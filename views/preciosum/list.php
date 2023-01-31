@@ -76,7 +76,7 @@ if (isset($_REQUEST["evento"]) && $_REQUEST["evento"] == "borrar") {
         </td>
         <td>
     
-          <a class="btn btn-danger" href="index.php?accion=borrar&tabla=preciosum&id=<?= $idpieza ?>&idvend=<?= $idvend ?>" ><i class="fa fa-trash"></i> Borrar</a>
+          <a class="btn btn-danger" href="index.php?accion=borrar&tabla=preciosum&idpieza=<?= $idpieza ?>&idvend=<?= $idvend ?>" ><i class="fa fa-trash"></i> Borrar</a>
         </td>
 
         <td><a class="btn btn-success" href="index.php?accion=editar&tabla=preciosum&idpieza=<?= $idpieza ?>&idvend=<?= $idvend ?>"><i class="fa fa-pencil"></i> Editar</a></td>

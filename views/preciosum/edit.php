@@ -6,13 +6,18 @@ require_once "controllers/piezasController.php";
 
 if (!isset($_REQUEST["idpieza"]) && !isset($_REQUEST["idvend"]))
     header('location:index.php?accion=listar&tabla=preciosum');
+
 $idvend = $_REQUEST["idvend"];
+
 $idpieza = $_REQUEST["idpieza"];
 
 
 $controladorPS = new PrecioSumsController();
 
-$precSum = $controladorPS->ver($idpieza, $idpieza);
+$precSum = $controladorPS->ver($idpieza, $idvend);
+
+
+
 
 $controladorVend = new VendedorController();
 
@@ -33,77 +38,65 @@ if ($precSum == null) {
 
 if (isset($_REQUEST["evento"]) && $_REQUEST["evento"] == "guardar") {
     $visibilidad = "visibility";
-    $mensaje = "El precioSum con id: {$idvend} de precSum e id: {$idpieza} Modificado con éxito";
+    $mensaje = "El precioSum con id: {$idvend} de vendedor e id: {$idpieza} de  pieza Modificado con éxito";
     if (isset($_REQUEST["error"])) {
         $mensaje = "No se ha podido modificar el precioSum con id: {$idvend} de precSum e id: {$idpieza}";
         $clase = "alert alert-danger";
         $errores = ($_SESSION["errores"]) ?? [];
         $datos = ($_SESSION["datos"]) ?? [];
-        //datos  mostar
+        //datos  mostar de los errores.......
 
     }
-
 }
 ?>
 <div class="<?= $clase ?>" <?= $visibilidad ?>> <?= $mensaje ?> </div>
 <?php
 
 if ($mostrarForm) {
-    ?>
+?>
 
     <form action="index.php?accion=guardar&evento=editar&tabla=preciosum" method="POST">
 
         <div class="form-group">
             <label for="numpieza">Número de pieza </label>
-            <input type="text" disabled class="form-control" id="numpieza" name="numpieza"
-                value="<?= $precSum->numpieza ?>" aria-describedby="numpieza" placeholder="Introduce precSum">
+            <input type="text" readonly class="form-control" id="numpieza" name="numpieza" value="<?= $precSum->numpieza ?>" aria-describedby="numpieza" placeholder="Introduce precSum">
             <?= isset($errores["numpieza"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "numpieza") . '</div>' : ""; ?>
         </div>
 
         <div class="form-group">
             <label for="numvend">Número de pieza </label>
-            <input type="text" disabled class="form-control" id="numvend" name="numvend" value="<?= $precSum->numvend ?>"
-                aria-describedby="numvend">
-            <?= isset($errores["numvend"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "numvend") . '</div>' : ""; ?>
-        </div>
-        <div class="form-group">
-            <label for="numvend">Número de pieza </label>
-            <input type="text" disabled class="form-control" id="numvend" name="numvend" value="<?= $precSum->numvend ?>"
-                aria-describedby="numvend">
+            <input type="text" readonly class="form-control" id="numvend" name="numvend" value="<?= $precSum->numvend ?>" aria-describedby="numvend">
             <?= isset($errores["numvend"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "numvend") . '</div>' : ""; ?>
         </div>
 
         <div class="form-group">
-            <label for="preciounit">Número de pieza </label>
-            <input type="text" disabled class="form-control" id="preciounit" name="preciounit" value="<?= $precSum->preciounit ?>"
-                aria-describedby="preciounit">
+            <label for="preciounit">Precio unidad </label>
+            <input type="text" class="form-control" id="preciounit" name="preciounit" value="<?= $precSum->preciounit ?>" aria-describedby="preciounit">
             <?= isset($errores["preciounit"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "preciounit") . '</div>' : ""; ?>
         </div>
 
         <div class="form-group">
-            <label for="diassum">Número de pieza </label>
-            <input type="text" disabled class="form-control" id="diassum" name="diassum" value="<?= $precSum->diassum ?>"
-                aria-describedby="diassum">
+            <label for="diassum">dias de suministro </label>
+            <input type="text" class="form-control" id="diassum" name="diassum" value="<?= $precSum->diassum ?>" aria-describedby="diassum">
             <?= isset($errores["diassum"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "diassum") . '</div>' : ""; ?>
         </div>
         <div class="form-group">
-            <label for="descuento">descuento</label>
-            <input type="text" disabled class="form-control" id="descuento" name="descuento" value="<?= $precSum->descuento ?>"
-                aria-describedby="descuento">
+            <label for="descuento">Descuento</label>
+            <input type="text" class="form-control" id="descuento" name="descuento" value="<?= $precSum->descuento ?>" aria-describedby="descuento">
             <?= isset($errores["descuento"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "descuento") . '</div>' : ""; ?>
         </div>
 
-        <!-- 
-        Posible modificación
-                diassum
-                descuento
-         -->
 
-
-
-
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a class="btn btn-danger" href="index.php?accion=listar&tabla=preciosum">Cancelar</a>
     </form>
+<?php
+} else {
+?>
+    <a href="index.php" class="btn btn-primary">Volver a Inicio</a>
+<?php
 
-    <?php
 }
+unset($_SESSION["errores"]);
+unset($_SESSION["datos"]);
 ?>

@@ -37,14 +37,12 @@ class precioSumModel
         ];
 
         $resultado = $sentencia->execute($arrayDatos);
-        // ojo devulve true si la consulta se ejecuta correctamente
-        // eso no quiere decir que hayan resultados
+
         if (!$resultado)
             return null;
-        //como sólo va a devolver un resultado uso fetch
-        // DE Paso probamos el FETCH_OBJ
+
         $preciosum = $sentencia->fetch(PDO::FETCH_OBJ);
-        //fetch duevelve el objeto stardar o false si no hay persona
+
         return ($preciosum == false) ? null : $preciosum;
     }
 
@@ -58,17 +56,17 @@ class precioSumModel
         return $preciosums;
     }
 
-    public function delete(int $id): bool
+    public function delete(string $id1, string $id2): bool
     {
-        // en esta seccion no hay que verificar ya que se compone de fk y por ende se puede borrar este aprtado 
-        $sql = "DELETE FROM preciosum WHERE numpreciosum =:id";
+
+        $sql = "DELETE FROM preciosum WHERE numpieza =:id1 AND numvend=:id2";
         try {
             $sentencia = $this->conexion->prepare($sql);
-            //devuelve true si se borra correctamente
-            //false si falla el borrado
-            // Pero, si el id existe el borrado es correcto
-            // Pero no borra
-            $resultado = $sentencia->execute([":id" => $id]);
+
+            $resultado = $sentencia->execute([
+                ":id1" => $id1,
+                ":id2" => $id2
+            ]);
             // Si no ha borrado nada considero borrado error
             return ($sentencia->rowCount() <= 0) ? false : true;
         } catch (Exception $e) {
@@ -77,18 +75,24 @@ class precioSumModel
         }
     }
 
-    public function edit(int $idAntiguo, array $preciosum): bool
+    public function edit( array $preciosum): bool
     {
 
         try {
-            $sql = "UPDATE preciosum SET numpreciosum = :numpe, numvend=:numve, fecha=:fecha";
-            $sql .= " WHERE numpreciosum = :idantiguo;";
+            $sql = "UPDATE preciosum SET  preciounit=:preciounit,descuento=:descuento";
+            $sql .= " WHERE numpieza = :numpieza AND numvend=:numve;";
             $arrayDatos = [
-                ":numpe" => $preciosum["numpreciosum"],
+
+                ":numpe" => $preciosum["numpieza"],
                 ":numve" => $preciosum["numvend"],
-                ":fecha" => $preciosum["fecha"],
-                ":idantiguo" => $idAntiguo,
+                ":preciounit" => $preciosum["preciounit"],
+                ":diassum" => $preciosum["diassum"],
+                ":descuento" => $preciosum["descuento"],
+          
+          
+          
             ];
+
             $sentencia = $this->conexion->prepare($sql);
             return $sentencia->execute($arrayDatos);
         } catch (Exception $e) {

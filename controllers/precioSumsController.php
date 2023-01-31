@@ -11,15 +11,18 @@ class PrecioSumsController
 
     public function crear(array $arrayPrecioSum): void
     {
-        
-            $id = $this->model->insert($arrayPrecioSum);
+/*
+numpieza
+numvend
+*/
+        $id = $this->model->insert($arrayPrecioSum);
 
         if ($id == null) {
-           
-            // header("location:index.php?accion=crear&tabla=preciosum&error=true&id={$id}");
+
+            header("location:index.php?accion=crear&tabla=preciosum&error=true&id={$id}");
         } else {
-         
-            // header("location:index.php?accion=ver&tabla=preciosum&id=" . $id);
+
+            header("location:index.php?accion=ver&tabla=preciosum&id=" . $id);
         }
     }
 
@@ -28,37 +31,40 @@ class PrecioSumsController
         return $this->model->read($id1, $id2);
     }
 
+
     public function listar()
     {
         return $this->model->readAll();
     }
 
-    public function borrar(int $id): void
+
+    public function borrar(string $id1, string $id2): void
     {
-        $borrado = $this->model->delete($id);
 
-        $redireccion = "location:index.php?accion=listar&tabla=preciosum&evento=borrar&id={$id}";
+        $borrado = $this->model->delete($id1,  $id2);
 
+        $redireccion = "location:index.php?accion=listar&tabla=preciosum&evento=borrar&id1={$id1}&id2={$id2}";
 
         $redireccion .= ($borrado == false) ? "&error=true" : "";
 
         header($redireccion);
-
     }
 
-    public function editar(int $idOriginal, array $arrayVendedor): void
+
+
+    public function editar( array $arrayVendedor): void
     {
-        $editado = $this->model->edit($idOriginal, $arrayVendedor);
+        $editado = $this->model->edit($arrayVendedor);
 
         if ($editado == false) {
 
-            $redireccion = "location:index.php?accion=editar&tabla=vendedor&evento=guardar&id={$idOriginal}&error=true";
+            $redireccion = "location:index.php?accion=editar&tabla=preciosum&evento=guardar&id={$idOriginal}&error=true";
         } else {
-          
+
             $id = $arrayVendedor[""];
-            $redireccion = "location:index.php?accion=editar&tabla=vendedor&evento=guardar&id={$id}";
+            $redireccion = "location:index.php?accion=editar&tabla=preciosum&evento=guardar&id={$id}";
         }
-    
+
         header($redireccion);
     }
 
@@ -66,5 +72,4 @@ class PrecioSumsController
     {
         return $this->model->search($campo, $metodoBusqueda, $texto);
     }
-    
 }
