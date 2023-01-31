@@ -17,7 +17,7 @@ if (isset($_REQUEST["evento"]) && $_REQUEST["evento"] == "borrar") {
   $visibilidad = "visibility";
   $clase = "alert alert-success";
   //Mejorar y poner el nombre/usuario 
-  $mensaje = "La pieza  con Numero de Pieza: {$_REQUEST['id']} Borrado correctamente";
+  $mensaje = "El precioSum  con Numero de Pieza: {$_REQUEST['id1']} y el id de vendedor es :{$_REQUEST['id2']} Borrado correctamente";
   if (isset($_REQUEST["error"])) {
     $clase = "alert alert-danger ";
     $mensaje = "ERROR!!! No se ha podido borrar la pieza con Numero de Pieza: {$_REQUEST['id']}";
@@ -75,8 +75,8 @@ if (isset($_REQUEST["evento"]) && $_REQUEST["evento"] == "borrar") {
           <?= $precioSums["descuento"] ?>
         </td>
         <td>
-    
-          <a class="btn btn-danger" href="index.php?accion=borrar&tabla=preciosum&idpieza=<?= $idpieza ?>&idvend=<?= $idvend ?>" ><i class="fa fa-trash"></i> Borrar</a>
+
+          <a class="btn btn-danger" href="index.php?accion=borrar&tabla=preciosum&idpieza=<?= $idpieza ?>&idvend=<?= $idvend ?>"><i class="fa fa-trash"></i> Borrar</a>
         </td>
 
         <td><a class="btn btn-success" href="index.php?accion=editar&tabla=preciosum&idpieza=<?= $idpieza ?>&idvend=<?= $idvend ?>"><i class="fa fa-pencil"></i> Editar</a></td>

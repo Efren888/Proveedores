@@ -4,8 +4,7 @@ require_once "controllers/vendedorController.php";
 require_once "controllers/precioSumsController.php";
 require_once "controllers/piezasController.php";
 
-if (!isset($_REQUEST["idpieza"]) && !isset($_REQUEST["idvend"]))
-    header('location:index.php?accion=listar&tabla=preciosum');
+if (!isset($_REQUEST["idpieza"]) && !isset($_REQUEST["idvend"])) header('location:index.php?accion=listar&tabla=preciosum');
 
 $idvend = $_REQUEST["idvend"];
 
@@ -15,9 +14,6 @@ $idpieza = $_REQUEST["idpieza"];
 $controladorPS = new PrecioSumsController();
 
 $precSum = $controladorPS->ver($idpieza, $idvend);
-
-
-
 
 $controladorVend = new VendedorController();
 
@@ -87,8 +83,8 @@ if ($mostrarForm) {
         </div>
 
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a class="btn btn-danger" href="index.php?accion=listar&tabla=preciosum">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a class="btn btn-danger" href="index.php?accion=listar&tabla=preciosum">Cancelar</a>
     </form>
 <?php
 } else {

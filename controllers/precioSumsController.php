@@ -6,15 +6,14 @@ class PrecioSumsController
 
     public function __construct()
     {
-        $this->model = new precioSumModel();
+        $this->model = new PrecioSumModel();
     }
 
     public function crear(array $arrayPrecioSum): void
     {
-/*
-numpieza
-numvend
-*/
+        /*
+        preguntar como hago esta parte, pilo array y lo guado o un string y lo parto
+        */
         $id = $this->model->insert($arrayPrecioSum);
 
         if ($id == null) {
@@ -38,12 +37,12 @@ numvend
     }
 
 
-    public function borrar(string $id1, string $id2): void
+    public function borrar(string $idpieza, string $idvend): void
     {
 
-        $borrado = $this->model->delete($id1,  $id2);
+        $borrado = $this->model->delete($idpieza,  $idvend);
 
-        $redireccion = "location:index.php?accion=listar&tabla=preciosum&evento=borrar&id1={$id1}&id2={$id2}";
+        $redireccion = "location:index.php?accion=listar&tabla=preciosum&evento=borrar&id1={$idpieza}&id2={$idvend}";
 
         $redireccion .= ($borrado == false) ? "&error=true" : "";
 
@@ -58,7 +57,7 @@ numvend
 
         if ($editado == false) {
 
-            $redireccion = "location:index.php?accion=editar&tabla=preciosum&evento=guardar&id={$idOriginal}&error=true";
+            $redireccion = "location:index.php?accion=editar&tabla=preciosum&evento=guardar&id={$editado}&error=true";
         } else {
 
             $id = $arrayVendedor[""];

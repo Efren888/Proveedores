@@ -15,13 +15,17 @@ class precioSumModel
 
     {
         try {
-            $sql = "INSERT INTO   VALUES ();";
+            $sql = "INSERT INTO   VALUES (numpieza=:numpieza, numvend=:numvend, preciounit=:preciounit,diassum=:diassum, descuento=:descuento);";
             $sentencia = $this->conexion->prepare($sql);
             $arrayDatos = [
-                // info
+                "numpieza" => $preciosum["numpieza"],
+                "numvend" => $preciosum["numvend"],
+                "preciounit" => $preciosum["preciounit"],
+                "diassum" => $preciosum["diassum"],
+                "descuento" => $preciosum["descuento"],
             ];
             $resultado = $sentencia->execute($arrayDatos);
-            return ($resultado == true) ? $preciosum["numpreciosum"] : null;
+            return ($resultado == true) ? $preciosum["numpieza"] : null;
         } catch (Exception $e) {
             echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
             return null;
@@ -75,7 +79,7 @@ class precioSumModel
         }
     }
 
-    public function edit( array $preciosum): bool
+    public function edit(array $preciosum): bool
     {
 
         try {
@@ -88,16 +92,18 @@ class precioSumModel
                 ":preciounit" => $preciosum["preciounit"],
                 ":diassum" => $preciosum["diassum"],
                 ":descuento" => $preciosum["descuento"],
-          
-          
-          
             ];
 
             $sentencia = $this->conexion->prepare($sql);
+
             return $sentencia->execute($arrayDatos);
+
         } catch (Exception $e) {
+
             echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
+
             return false;
+            
         }
     }
     public function search(string $campo, string $metodoBusqueda, string $dato): array
