@@ -51,17 +51,19 @@ class PrecioSumsController
 
 
 
-    public function editar( array $arrayVendedor): void
+    public function editar(array $arrayVendedor): void
     {
         $editado = $this->model->edit($arrayVendedor);
 
         if ($editado == false) {
-
-            $redireccion = "location:index.php?accion=editar&tabla=preciosum&evento=guardar&id={$editado}&error=true";
+            $idpieza = $editado["id1"];
+            $idvend = $editado["id2"];
+            $redireccion = "location:index.php?accion=editar&tabla=preciosum&evento=guardar&idpieza={$idpieza}&idvend={$idvend}&error=true";
         } else {
 
-            $id = $arrayVendedor[""];
-            $redireccion = "location:index.php?accion=editar&tabla=preciosum&evento=guardar&id={$id}";
+            $idpieza = $arrayVendedor["numpieza"];
+            $idvend = $arrayVendedor["numvend"];
+            $redireccion = "location:index.php?accion=editar&tabla=preciosum&evento=guardar&idpieza={$idpieza}&idvend={$idvend}";
         }
 
         header($redireccion);

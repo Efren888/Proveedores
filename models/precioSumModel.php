@@ -25,19 +25,23 @@ class precioSumModel
                 "descuento" => $preciosum["descuento"],
             ];
             $resultado = $sentencia->execute($arrayDatos);
-            return ($resultado == true) ? $preciosum["numpieza"] : null;
+            $arrayIds = [
+                $preciosum["numpieza"],
+                $preciosum["numvend"],
+            ];
+            return ($resultado == true) ?  $arrayIds : null;
         } catch (Exception $e) {
             echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
             return null;
         }
     }
 
-    public function read(string $id1, string $id2): ?stdClass
+    public function read(string $numpieza, string $numvend): ?stdClass
     {
-        $sentencia = $this->conexion->prepare("SELECT * FROM preciosum WHERE numpieza=:id1 AND numvend=:id2");
+        $sentencia = $this->conexion->prepare("SELECT * FROM preciosum WHERE numpieza=:numpieza AND numvend=:numvend");
         $arrayDatos = [
-            ":id1" => $id1,
-            ":id2" => $id2
+            ":numpieza" => $numpieza,
+            ":numvend" => $numvend
         ];
 
         $resultado = $sentencia->execute($arrayDatos);
@@ -83,11 +87,11 @@ class precioSumModel
     {
 
         try {
-            $sql = "UPDATE preciosum SET  preciounit=:preciounit,descuento=:descuento";
+            $sql = "UPDATE preciosum SET  preciounit=:preciounit,diassum=:diassum,descuento=:descuento";
             $sql .= " WHERE numpieza = :numpieza AND numvend=:numve;";
             $arrayDatos = [
 
-                ":numpe" => $preciosum["numpieza"],
+                ":numpieza" => $preciosum["numpieza"],
                 ":numve" => $preciosum["numvend"],
                 ":preciounit" => $preciosum["preciounit"],
                 ":diassum" => $preciosum["diassum"],
@@ -97,13 +101,11 @@ class precioSumModel
             $sentencia = $this->conexion->prepare($sql);
 
             return $sentencia->execute($arrayDatos);
-
         } catch (Exception $e) {
 
             echo 'Excepción capturada: ', $e->getMessage(), "<bR>";
 
             return false;
-            
         }
     }
     public function search(string $campo, string $metodoBusqueda, string $dato): array

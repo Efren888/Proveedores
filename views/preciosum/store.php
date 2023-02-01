@@ -3,24 +3,25 @@
 require_once "controllers/precioSumsController.php";
 
 //recoger datos
-if (!isset ($_REQUEST["idvend"])&& $_REQUEST["idpieza"]) 
+if (!isset ($_REQUEST["numvend"])&& $_REQUEST["numpieza"]) 
 header('Location:index.php?accion=crear&tabla=preciosum' );
 
-$idvend = $_REQUEST["idvend"];
+ $idvend = $_REQUEST["numvend"];
 
-$idpieza = $_REQUEST["idpieza"];
+ $idpieza = $_REQUEST["numpieza"];
 
 
 $arrayPrecioSum=[
-    "numpieza"=>$_REQUEST["numpieza"]  ,
-    "numvend"=>$_REQUEST["numvend"]  ,
+    "numpieza"=>$idpieza  ,
+    "numvend"=>$idvend  ,
     "preciounit"=>$_REQUEST["preciounit"],
     "diassum"=>$_REQUEST["diassum"]  ,
     "descuento"=>$_REQUEST["descuento"]  ,
 
             ];
+            var_dump($arrayPrecioSum);
 //pagina invisible
-$controladorPs= new  PrecioSumsController();
+ $controladorPs= new  PrecioSumsController();
 if ($_REQUEST["evento"]=="crear"){
     $controladorPs->crear($arrayPrecioSum);
 }

@@ -7,7 +7,9 @@ require_once "controllers/precioSumsController.php";
 //recoger datos
 if (!isset($_REQUEST["id"]))
   header('location:index.php?accion=listar&tabla=piezas');
+
 $id = $_REQUEST["id"];
+
 $controlador = new PiezasController();
 $pieza = $controlador->ver($id);
 
@@ -50,7 +52,7 @@ if (isset($_REQUEST["evento"]) && $_REQUEST["evento"] == "guardar") {
 <div class="<?= $clase ?>" <?= $visibilidad ?>> <?= $mensaje ?> </div>
 <?php
 if ($mostrarForm) {
-  ?>
+?>
   <form action="index.php?accion=guardar&evento=editar&tabla=piezas" method="POST">
     <input type="hidden" id="idOriginal" name="idOriginal" value="<?= $id ?>">
     <div class="form-group">
@@ -63,31 +65,31 @@ if ($mostrarForm) {
         count($controlador->buscar("numpieza", "igual", $pieza->numpieza)) > 0) ? "readonly" : "";
       ?>
 
-      <input type="text" <?= $habilitado ?> required class="form-control" id="numpieza" name="numpieza"
-        value="<?= $pieza->numpieza ?>" aria-describedby="numpieza" placeholder="Introduce pieza">
+      <input type="text" <?= $habilitado ?> required class="form-control" id="numpieza" name="numpieza" value="<?= $pieza->numpieza ?>" aria-describedby="numpieza" placeholder="Introduce pieza">
       <small id="pieza" class="form-text text-muted">Compartir tu pieza lo hace menos seguro.</small>
       <?= isset($errores["numpieza"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "numpieza") . '</div>' : ""; ?>
 
     </div>
     <div class="form-group">
       <label for="nompieza">Nombre </label>
-      <input type="text" class="form-control" id="nompieza" name="nompieza" value="<?= $pieza->nompieza ?>"
-        placeholder="Introduce el Nombre de la pieza">
-        <?= isset($errores["nompieza"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "nompieza") . '</div>' : ""; ?>
+      <input type="text" class="form-control" id="nompieza" name="nompieza" value="<?= $pieza->nompieza ?>" placeholder="Introduce el Nombre de la pieza">
+      <?= isset($errores["nompieza"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "nompieza") . '</div>' : ""; ?>
     </div>
 
     <div class="form-group">
       <label for="preciovent">Precio de Venta </label>
-      <input type="text" class="form-control" id="preciovent" name="preciovent" value="<?= $pieza->preciovent ?>"
-        placeholder="Introduce el Precio">
-        <?= isset($errores["preciovent"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "preciovent") . '</div>' : ""; ?>
+      <input type="text" class="form-control" id="preciovent" name="preciovent" value="<?= $pieza->preciovent ?>" placeholder="Introduce el Precio">
+      <?= isset($errores["preciovent"]) ? '<div class="alert alert-danger" role="alert">' . DibujarErrores($errores, "preciovent") . '</div>' : ""; ?>
     </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a class="btn btn-danger" href="index.php?accion=listar&tabla=piezas">Cancelar</a>
   </form>
-  <?php
+<?php
 } else {
-  ?>
+?>
   <a href="index.php" class="btn btn-primary">Volver a Inicio</a>
-  <?php
+<?php
+
 }
+unset($_SESSION["errores"]);
+unset($_SESSION["datos"]);
